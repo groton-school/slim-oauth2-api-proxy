@@ -21,15 +21,15 @@ class RedirectAction extends AbstractAction
         private AbstractProvider $provider,
         private SessionInterface $session,
         private SettingsInterface $settings
-    ) {
-    }
+    ) {}
 
     protected function invokeHook(
         ServerRequest $request,
-        Response $response
+        Response $response,
+        array $args = []
     ): ResponseInterface {
         $state = $request->getQueryParam('state');
-        if (empty($state) || $state !== $this->session->get(AuthorizationUrlAction::STATE)) {
+        if (empty($state) || $state !== $this->session->get(AuthorizeAction::STATE)) {
             return $response->withStatus(404);
         }
         $token = $this->provider->getAccessToken('authorization_code', [

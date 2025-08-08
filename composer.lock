@@ -73,16 +73,16 @@
         },
         {
             "name": "groton-school/slim-norms",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/groton-school/slim-norms.git",
-                "reference": "e39e8e48bc6daf2afe1ee462fb27381f0befc92a"
+                "reference": "c0e3f763bb23c08b8d2ad387e97adfd0b098c731"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/groton-school/slim-norms/zipball/e39e8e48bc6daf2afe1ee462fb27381f0befc92a",
-                "reference": "e39e8e48bc6daf2afe1ee462fb27381f0befc92a",
+                "url": "https://api.github.com/repos/groton-school/slim-norms/zipball/c0e3f763bb23c08b8d2ad387e97adfd0b098c731",
+                "reference": "c0e3f763bb23c08b8d2ad387e97adfd0b098c731",
                 "shasum": ""
             },
             "require": {
@@ -114,9 +114,9 @@
             "description": "Define some normal interfaces and abstract classes for working with the Slim Framework",
             "support": {
                 "issues": "https://github.com/groton-school/slim-norms/issues",
-                "source": "https://github.com/groton-school/slim-norms/tree/v1.0.0"
+                "source": "https://github.com/groton-school/slim-norms/tree/v1.0.1"
             },
-            "time": "2025-08-08T14:32:24+00:00"
+            "time": "2025-08-08T23:37:41+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
