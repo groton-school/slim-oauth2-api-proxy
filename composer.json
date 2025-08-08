@@ -1,0 +1,43 @@
+{
+  "name": "groton-school/slim-spa-oauth2-client",
+  "description": "Server-side actions and routes for authenticating to and accessing the an OAuth2 API from a Single Page (web) App",
+  "version": "0.0.0",
+  "authors": [
+    {
+      "name": "Seth Battis",
+      "email": "sbattis@groton.org"
+    }
+  ],
+  "license": "GPL-3.0",
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "GrotonSchool\\Slim\\SPA\\OAuth2\\Client\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/battis/dflydev-fig-cookies.git"
+    }
+  ],
+  "require": {
+    "dflydev/fig-cookies": "dev-feat/chips",
+    "groton-school/slim-norms": "^1.0",
+    "league/oauth2-client": "^2.8",
+    "odan/session": "^6.4",
+    "php-di/php-di": ">=6.0",
+    "psr/container": ">=1.0",
+    "psr/http-message": "^2.0",
+    "slim/http": "^1.4",
+    "slim/slim": "^4.14"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.85",
+    "marcocesarato/php-conventional-changelog": "^1.17"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
