@@ -17,7 +17,7 @@ class RouteBuilder implements RouteBuilderInterface
 {
     public static function define(App $app, string $providerSlug = 'oauth2'): RouteGroupInterface
     {
-        $providerSlug = preg_replace("/[^a-z0-9\-]+/g", '-', $providerSlug);
+        $providerSlug = preg_replace("/[^a-z0-9\-]+/", '-', $providerSlug);
         return $app->group("/login/$providerSlug", function (RouteCollectorProxyInterface $login) {
             $login->get('/authorize/{clientId}', AuthorizeAction::class);
             $login->get('/redirect', RedirectAction::class);
