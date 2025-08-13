@@ -40,9 +40,11 @@ class RefreshTokenAction extends AbstractAction
             $this->tokenFactory->toCookie(
                 AccessToken::merge(
                     $oldToken,
-                    $provider->getAccessToken('refresh_token', [
-                        'refresh_token' => $oldToken['refresh_token']
-                    ])
+                    $this->tokenFactory->fromLeagueAccessToken(
+                        $provider->getAccessToken('refresh_token', [
+                            'refresh_token' => $oldToken->getRefreshToken()
+                        ])
+                    )
                 )
             )
         );

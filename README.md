@@ -19,7 +19,7 @@ This package assumes that session-management is being handled by [odan/session](
 1. Implement `SettingsInterface`
 2. Define `SettingsInterface` dependency in `app/dependencies.php`
 3. Inject settings values in `app/settings.php`
-4. Implement `ProviderRepositoryInterface` (or use `SingleProvider`)
+4. Implement `ProviderRepositoryInterface` (or use `SingleProvider` and inject `AbstractProvider` definition)
 5. Define `ProviderRepositoryInterface` in `app/dependencies.php`
 6. Inject provider values either in persistent storage or (if using `SingleProvider` in `app/settings`)
 7. Define routes using `RouteBuilder::define()` in `app/routes.php`
