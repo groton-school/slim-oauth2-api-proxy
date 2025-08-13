@@ -12,8 +12,14 @@ class SingleProvider implements ProviderRepositoryInterface
     {
         $options = [];
         parse_str($this->provider->getAuthorizationUrl(), $options);
+        error_log(json_encode([
+            'url' => $url,
+            'clientId' => $clientId,
+            'url == ""' => $url == '',
+            'clientId == ""' => $clientId == ''
+        ]));
         if (
-            ($url === '' ||
+            ($url == '' ||
                 parse_url(
                     $url,
                     PHP_URL_HOST
@@ -22,7 +28,7 @@ class SingleProvider implements ProviderRepositoryInterface
                     PHP_URL_HOST
                 )
             ) && (
-                $clientId = '' ||
+                $clientId == '' ||
                 $clientId === $options['client_id']
             )
         ) {
