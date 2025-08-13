@@ -20,7 +20,7 @@ class AccessTokenFactory
                 FigRequestCookies::get(
                     $request,
                     $this->settings->getOAuth2TokensCookieName()
-                ),
+                )->getValue(),
                 true
             )
         );
