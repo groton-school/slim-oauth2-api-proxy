@@ -19,7 +19,7 @@ class RouteBuilder implements RouteBuilderInterface
     {
         $providerSlug = preg_replace("/[^a-z0-9\-]+/", '-', $providerSlug);
         return $app->group("/login/$providerSlug", function (RouteCollectorProxyInterface $login) {
-            $login->get('/authorize/{clientId}', AuthorizeAction::class);
+            $login->get('/authorize', AuthorizeAction::class);
             $login->get('/redirect', RedirectAction::class);
             $login->get('/refresh', RefreshTokenAction::class);
         })

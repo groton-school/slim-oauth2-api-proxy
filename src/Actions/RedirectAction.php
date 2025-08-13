@@ -8,8 +8,8 @@ use Dflydev\FigCookies\FigResponseCookies;
 use Dflydev\FigCookies\Modifier\SameSite;
 use Dflydev\FigCookies\SetCookie;
 use GrotonSchool\Slim\Norms\AbstractAction;
+use GrotonSchool\Slim\SPA\OAuth2\Client\Domain\Provider\ProviderFactory;
 use GrotonSchool\Slim\SPA\OAuth2\Client\SettingsInterface;
-use League\OAuth2\Client\Provider\AbstractProvider;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
@@ -18,7 +18,7 @@ use Slim\Http\ServerRequest;
 class RedirectAction extends AbstractAction
 {
     public function __construct(
-        private AbstractProvider $provider,
+        private ProviderFactory $providerFactory,
         private SessionInterface $session,
         private SettingsInterface $settings
     ) {}
@@ -28,11 +28,12 @@ class RedirectAction extends AbstractAction
         Response $response,
         array $args = []
     ): ResponseInterface {
+        $provider = $this->providerFactory->fromSession($this->session);
         $state = $request->getQueryParam('state');
-        if (empty($state) || $state !== $this->session->get(AuthorizeAction::STATE)) {
-            return $response->withStatus(404);
+        if (!$provider || empty($state) || $state !== $this->session->get(AuthorizeAction::STATE)) {
+            return $response->withStatus(401);
         }
-        $token = $this->provider->getAccessToken('authorization_code', [
+        $token = $provider->getAccessToken('authorization_code', [
             'code' => $request->getQueryParam('code')
         ]);
         return FigResponseCookies::set(

@@ -8,8 +8,8 @@ use Dflydev\FigCookies\FigResponseCookies;
 use GrotonSchool\Slim\Norms\AbstractAction;
 use GrotonSchool\Slim\SPA\OAuth2\Client\Domain\AccessToken\AccessToken;
 use GrotonSchool\Slim\SPA\OAuth2\Client\Domain\AccessToken\AccessTokenFactory;
+use GrotonSchool\Slim\SPA\OAuth2\Client\Domain\Provider\ProviderRepositoryInterface;
 use GrotonSchool\Slim\SPA\OAuth2\Client\SettingsInterface;
-use League\OAuth2\Client\Provider\AbstractProvider;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -17,7 +17,7 @@ use Psr\Http\Message\ResponseInterface;
 class RefreshTokenAction extends AbstractAction
 {
     public function __construct(
-        private AbstractProvider $provider,
+        private ProviderRepositoryInterface $providers,
         private AccessTokenFactory $tokenFactory,
         private SettingsInterface $settings
     ) {}
@@ -27,6 +27,10 @@ class RefreshTokenAction extends AbstractAction
         Response $response,
         array $args = []
     ): ResponseInterface {
+        $provider = $this->providers->find(
+            $request->getQueryParam('host', ''),
+            $request->getQueryParam('client_id', '')
+        );
         $redirect = $request->getQueryParam('redirect') ??
             $this->settings->getOAuth2AuthenticatedRedirectUrl();
         $oldToken = $this->tokenFactory->fromRequestCookie($request);
@@ -36,7 +40,7 @@ class RefreshTokenAction extends AbstractAction
             $this->tokenFactory->toCookie(
                 AccessToken::merge(
                     $oldToken,
-                    $this->provider->getAccessToken('refresh_token', [
+                    $provider->getAccessToken('refresh_token', [
                         'refresh_token' => $oldToken['refresh_token']
                     ])
                 )

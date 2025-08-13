@@ -27,14 +27,14 @@
     "groton-school/slim-norms": "^1.0",
     "league/oauth2-client": "^2.8",
     "odan/session": "^6.4",
-    "php-di/php-di": ">=6.0",
-    "psr/container": ">=1.0",
+    "php-di/php-di": "^7.0",
+    "psr/container": "^2.0",
     "psr/http-message": "^2.0",
     "slim/http": "^1.4",
-    "slim/slim": "^4.14"
+    "slim/slim": "^4.12"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.85",
+    "friendsofphp/php-cs-fixer": "^3.76",
     "marcocesarato/php-conventional-changelog": "^1.17"
   },
   "config": {
