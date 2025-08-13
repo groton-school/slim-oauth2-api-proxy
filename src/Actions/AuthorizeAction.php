@@ -11,7 +11,7 @@ use Slim\Http\ServerRequest;
 
 class AuthorizeAction extends AbstractAction
 {
-    public const STATE = self::class . '::session';
+    public const STATE = self::class . '::state';
 
     public function __construct(
         private ProviderFactory $providerFactory,
@@ -25,9 +25,10 @@ class AuthorizeAction extends AbstractAction
     ): ResponseInterface {
         $provider = $this->providerFactory->fromRequest($request);
         if ($provider) {
+            $authUrl = $provider->getAuthorizationUrl();
             $this->session->set(self::STATE, $provider->getState());
             $this->providerFactory->toSession($provider, $this->session);
-            return $response->withRedirect($provider->getAuthorizationUrl());
+            return $response->withRedirect($authUrl);
         } else {
             return $response->withStatus(400, "OAuth 2.0 host and/or client_id not specified");
         }

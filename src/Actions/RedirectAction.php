@@ -31,6 +31,11 @@ class RedirectAction extends AbstractAction
         $provider = $this->providerFactory->fromSession($this->session);
         $state = $request->getQueryParam('state');
         if (!$provider || empty($state) || $state !== $this->session->get(AuthorizeAction::STATE)) {
+            error_log(json_encode([
+                'provider' => $provider,
+                'state' => $state,
+                'session' => $this->session->all()
+            ]));
             return $response->withStatus(401);
         }
         $token = $provider->getAccessToken('authorization_code', [
