@@ -8,6 +8,7 @@ use Dflydev\FigCookies\FigResponseCookies;
 use GrotonSchool\Slim\Norms\AbstractAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessTokenFactory;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
+use GuzzleHttp\Exception\GuzzleException;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\Uri\Uri;
 use Odan\Session\SessionInterface;
@@ -64,18 +65,22 @@ class ProxyAction extends AbstractAction
                 'authorize' => Uri::fromBaseUri("/" . $this->provider->getSlug() . "/login/authorize", $request->getUri())
             ]);
         } else {
-            $proxiedResponse = $this->provider->getResponse(
-                $this->provider->getAuthenticatedRequest(
-                    $request->getMethod(),
-                    (string) Uri::fromBaseUri($args['path'], $this->provider->getBaseApiUrl()),
-                    $token,
-                    [
-                        'body' => $request->getBody(),
-                        'headers' => $request->getHeaders(),
-                        'version' => $request->getProtocolVersion()
-                    ]
-                )
-            );
+            try {
+                $proxiedResponse = $this->provider->getResponse(
+                    $this->provider->getAuthenticatedRequest(
+                        $request->getMethod(),
+                        (string) Uri::fromBaseUri($args['path'], $this->provider->getBaseApiUrl()),
+                        $token,
+                        [
+                            'body' => $request->getBody(),
+                            //'headers' => $request->getHeaders(),
+                            //'version' => $request->getProtocolVersion()
+                        ]
+                    )
+                );
+            } catch (GuzzleException $e) {
+                return $response->withStatus($e->getCode(), $e->getMessage());
+            }
             $response = FigResponseCookies::set(
                 $response->withBody(
                     $proxiedResponse->getBody()
