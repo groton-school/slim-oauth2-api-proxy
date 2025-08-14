@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace GrotonSchool\Slim\OAuth2\APIProxy\Actions;
 
 use Dflydev\FigCookies\FigResponseCookies;
-use Dflydev\FigCookies\Modifier\SameSite;
-use Dflydev\FigCookies\SetCookie;
 use GrotonSchool\Slim\Norms\AbstractAction;
+use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessTokenFactory;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderFactory;
-use GrotonSchool\Slim\OAuth2\APIProxy\SettingsInterface;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
@@ -20,7 +18,6 @@ class RedirectAction extends AbstractAction
     public function __construct(
         private ProviderFactory $providerFactory,
         private SessionInterface $session,
-        private SettingsInterface $settings
     ) {}
 
     protected function invokeHook(
@@ -31,23 +28,17 @@ class RedirectAction extends AbstractAction
         $provider = $this->providerFactory->fromSession($this->session);
         $state = $request->getQueryParam('state');
         if (!$provider || empty($state) || $state !== $this->session->get(AuthorizeAction::STATE)) {
-            return $response->withStatus(401);
+            return $response->withStatus(400);
         }
+        $accessTokenFactory = new AccessTokenFactory($provider);
         $token = $provider->getAccessToken('authorization_code', [
             'code' => $request->getQueryParam('code')
         ]);
         return FigResponseCookies::set(
             $response->withRedirect(
-                $this->settings->getOAuth2AuthenticatedRedirectUrl()
+                $provider->getAuthorizedRedirect()
             ),
-            SetCookie::createRememberedForever(
-                $this->settings->getOAuth2TokensCookieName()
-            )
-                ->withValue(json_encode($token))
-                ->withPath('/')
-                ->withSameSite(SameSite::none())
-                ->withSecure()
-                ->withPartitioned()
+            $accessTokenFactory->toCookie($token)
         );
     }
 }

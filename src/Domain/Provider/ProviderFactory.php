@@ -2,7 +2,6 @@
 
 namespace GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider;
 
-use League\OAuth2\Client\Provider\AbstractProvider;
 use Odan\Session\SessionInterface;
 use Slim\Http\ServerRequest;
 
@@ -13,7 +12,7 @@ class ProviderFactory
 
     public function __construct(private ProviderRepositoryInterface $providers) {}
 
-    public function fromRequest(ServerRequest $request): ?AbstractProvider
+    public function fromRequest(ServerRequest $request): ?ProviderInterface
     {
         return $this->providers->find(
             $request->getQueryParam('host', ''),
@@ -21,7 +20,7 @@ class ProviderFactory
         );
     }
 
-    public function toSession(AbstractProvider $provider, SessionInterface $session): void
+    public function toSession(ProviderInterface $provider, SessionInterface $session): void
     {
         $session->set(self::HOST, parse_url($provider->getBaseAuthorizationUrl(), PHP_URL_HOST));
         $options = [];
@@ -29,7 +28,7 @@ class ProviderFactory
         $session->set(self::CLIENT_ID, $options['client_id']);
     }
 
-    public function fromSession(SessionInterface $session): ?AbstractProvider
+    public function fromSession(SessionInterface $session): ?ProviderInterface
     {
         return $this->providers->find(
             $session->get(self::HOST),

@@ -30,7 +30,7 @@ class AuthorizeAction extends AbstractAction
             $this->providerFactory->toSession($provider, $this->session);
             return $response->withRedirect($authUrl);
         } else {
-            return $response->withStatus(400, "OAuth 2.0 host and/or client_id not specified");
+            return $response->withStatus(400);
         }
     }
 }

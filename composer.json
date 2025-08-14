@@ -24,8 +24,11 @@
   ],
   "require": {
     "dflydev/fig-cookies": "dev-feat/chips",
+    "groton-school/oauth2-canvaslms": "^1.1",
     "groton-school/slim-norms": "^1.0",
+    "guzzlehttp/guzzle": "^7.9",
     "league/oauth2-client": "^2.8",
+    "league/uri": "^7.5",
     "odan/session": "^6.4",
     "php-di/php-di": "^7.0",
     "psr/container": "^2.0",
