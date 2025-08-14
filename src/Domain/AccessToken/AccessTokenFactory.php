@@ -6,6 +6,7 @@ use Dflydev\FigCookies\FigRequestCookies;
 use Dflydev\FigCookies\Modifier\SameSite;
 use Dflydev\FigCookies\SetCookie;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
+use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Token\AccessTokenInterface;
 use Psr\Http\Message\RequestInterface;
 
@@ -37,5 +38,24 @@ class AccessTokenFactory
             ->withSameSite(SameSite::none())
             ->withSecure()
             ->withPartitioned();
+    }
+
+    /**
+     * Some APIs are parsimonious about refresh tokens and only give the
+     * out on the first authentication. Preserve that first refresh token
+     * by merging it into any new access tokens.
+     */
+    public static function merge(AccessToken $a, AccessToken $b): AccessToken
+    {
+        if ($a->getExpires() > $b->getExpires()) {
+            $temp = $a;
+            $a = $b;
+            $b = $temp;
+        }
+        $result = clone $b;
+        if (!$b->getRefreshToken() && $a->getRefreshToken()) {
+            $result->setRefreshToken($a->getRefreshToken());
+        }
+        return $result;
     }
 }

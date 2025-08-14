@@ -6,7 +6,6 @@ namespace GrotonSchool\Slim\OAuth2\APIProxy\Actions;
 
 use Dflydev\FigCookies\FigResponseCookies;
 use GrotonSchool\Slim\Norms\AbstractAction;
-use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessToken;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessTokenFactory;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -39,7 +38,7 @@ class ProxyAction extends AbstractAction
         $token = $accessTokenFactory->fromRequest($request);
         if ($token && $token->hasExpired()) {
             try {
-                $token = AccessToken::merge(
+                $token = $accessTokenFactory::merge(
                     $token,
                     $this->provider->getAccessToken(
                         'refresh_token',
@@ -68,7 +67,7 @@ class ProxyAction extends AbstractAction
             $proxiedResponse = $this->provider->getResponse(
                 $this->provider->getAuthenticatedRequest(
                     $request->getMethod(),
-                    Uri::fromBaseUri($args['path'], $this->provider->getBaseApiUrl()),
+                    (string) Uri::fromBaseUri($args['path'], $this->provider->getBaseApiUrl()),
                     $token,
                     [
                         'body' => $request->getBody(),
