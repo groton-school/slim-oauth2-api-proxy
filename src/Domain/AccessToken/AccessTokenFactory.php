@@ -14,17 +14,21 @@ class AccessTokenFactory
 {
     public function __construct(private ProviderInterface $provider) {}
 
-    public function fromRequest(RequestInterface $request): AccessToken
+    public function fromRequest(RequestInterface $request): ?AccessToken
     {
-        return new AccessToken(
-            json_decode(
-                FigRequestCookies::get(
-                    $request,
-                    $this->provider->getCookieName()
-                )->getValue(),
-                true
-            )
-        );
+        $storedToken = FigRequestCookies::get(
+            $request,
+            $this->provider->getCookieName()
+        )->getValue();
+        if ($storedToken) {
+            return new AccessToken(
+                json_decode(
+                    $storedToken,
+                    true
+                )
+            );
+        }
+        return null;
     }
 
     public function toCookie(AccessTokenInterface $token): SetCookie
