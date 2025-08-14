@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace GrotonSchool\Slim\SPA\OAuth2\Client;
+namespace GrotonSchool\Slim\OAuth2\APIProxy;
 
 use GrotonSchool\Slim\Norms\RouteBuilderInterface;
-use GrotonSchool\Slim\SPA\OAuth2\Client\Actions\AuthorizeAction;
-use GrotonSchool\Slim\SPA\OAuth2\Client\Actions\RedirectAction;
-use GrotonSchool\Slim\SPA\OAuth2\Client\Actions\RefreshTokenAction;
+use GrotonSchool\Slim\OAuth2\APIProxy\Actions\AuthorizeAction;
+use GrotonSchool\Slim\OAuth2\APIProxy\Actions\RedirectAction;
+use GrotonSchool\Slim\OAuth2\APIProxy\Actions\RefreshTokenAction;
 use Odan\Session\Middleware\SessionStartMiddleware;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface;

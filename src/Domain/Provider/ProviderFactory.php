@@ -1,6 +1,6 @@
 <?php
 
-namespace GrotonSchool\Slim\SPA\OAuth2\Client\Domain\Provider;
+namespace GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider;
 
 use League\OAuth2\Client\Provider\AbstractProvider;
 use Odan\Session\SessionInterface;

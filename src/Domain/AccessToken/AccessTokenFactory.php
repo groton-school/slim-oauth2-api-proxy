@@ -1,6 +1,6 @@
 <?php
 
-namespace GrotonSchool\Slim\SPA\OAuth2\Client\Domain\AccessToken;
+namespace GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken;
 
 use Dflydev\FigCookies\FigRequestCookies;
 use Dflydev\FigCookies\Modifier\SameSite;

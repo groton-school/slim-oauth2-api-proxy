@@ -1,6 +1,6 @@
 {
-  "name": "groton-school/slim-spa-oauth2-client",
-  "description": "Server-side actions and routes for authenticating to and accessing the an OAuth2 API from a Single Page (web) App",
+  "name": "groton-school/slim-oauth2-api-proxy",
+  "description": "Server-side actions and routes for authenticating to and accessing the an OAuth2 API from a web client",
   "version": "0.0.0",
   "authors": [
     {
@@ -13,7 +13,7 @@
   "prefer-stable": true,
   "autoload": {
     "psr-4": {
-      "GrotonSchool\\Slim\\SPA\\OAuth2\\Client\\": "src/"
+      "GrotonSchool\\Slim\\OAuth2\\APIProxy\\": "src/"
     }
   },
   "repositories": [

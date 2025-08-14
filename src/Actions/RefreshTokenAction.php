@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace GrotonSchool\Slim\SPA\OAuth2\Client\Actions;
+namespace GrotonSchool\Slim\OAuth2\APIProxy\Actions;
 
 use Dflydev\FigCookies\FigResponseCookies;
 use GrotonSchool\Slim\Norms\AbstractAction;
-use GrotonSchool\Slim\SPA\OAuth2\Client\Domain\AccessToken\AccessToken;
-use GrotonSchool\Slim\SPA\OAuth2\Client\Domain\AccessToken\AccessTokenFactory;
-use GrotonSchool\Slim\SPA\OAuth2\Client\Domain\Provider\ProviderRepositoryInterface;
-use GrotonSchool\Slim\SPA\OAuth2\Client\SettingsInterface;
+use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessToken;
+use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessTokenFactory;
+use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderRepositoryInterface;
+use GrotonSchool\Slim\OAuth2\APIProxy\SettingsInterface;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Psr\Http\Message\ResponseInterface;

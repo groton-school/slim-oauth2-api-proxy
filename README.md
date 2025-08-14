@@ -1,18 +1,18 @@
-# groton-school/slim-spa-oauth2-client
+# groton-school/slim-oauth2-api-proxy
 
 Server-side actions and routes for authenticating to and accessing the an OAuth2 API from a Single Page (web) App
 
-[![Latest Version](https://img.shields.io/packagist/v/groton-school/slim-spa-oauth2-client.svg)](https://packagist.org/packages/groton-school/slim-spa-oauth2-client)
+[![Latest Version](https://img.shields.io/packagist/v/groton-school/slim-oauth2-api-proxy.svg)](https://packagist.org/packages/groton-school/slim-oauth2-api-proxy)
 
 ## Install
 
 ```bash
-composer require groton-school/slim-spa-oauth2-client
+composer require groton-school/oauth2-api-proxy
 ```
 
 ## Use
 
-This is intended to be used in conjuction with a Single Page (web) App implemented using [@groton/canvas-api.client.spa](https://npmjs.org/package/@groton/canvas-api.client.spa) or similar in the context of a [slim-skeleton](https://github.com/slimphp/Slim-Skeleton#readme)-based app.
+This is intended to be used in conjuction with a Single Page (web) App implemented using [@groton/canvas-api.client.slim-oauth2-api-proxy](https://npmjs.org/package/@groton/canvas-api.client.slim-oauth2-api-proxy) or similar in the context of a [slim-skeleton](https://github.com/slimphp/Slim-Skeleton#readme)-based app.
 
 This package assumes that session-management is being handled by [odan/session](https://github.com/odan/session#readme).
 
@@ -26,4 +26,4 @@ This package assumes that session-management is being handled by [odan/session](
 
 ### groton-school/slim-skeleton@dev-gae/lti-tool-spa
 
-[groton-school/slim-skeleton](https://github.com/groton-school/slim-skeleton/tree/gae/lti-tool-spa) is the canonical example of how this shim is meant to be used.
+[groton-school/slim-skeleton](https://github.com/groton-school/slim-skeleton/tree/gae/lti-tool_oauth2-api-proxy) is the canonical example of how this shim is meant to be used.

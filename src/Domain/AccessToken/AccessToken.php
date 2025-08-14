@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GrotonSchool\Slim\SPA\OAuth2\Client\Domain\AccessToken;
+namespace GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken;
 
 use League\OAuth2\Client\Token as League;
 

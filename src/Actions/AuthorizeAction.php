@@ -1,9 +1,9 @@
 <?php
 
-namespace GrotonSchool\Slim\SPA\OAuth2\Client\Actions;
+namespace GrotonSchool\Slim\OAuth2\APIProxy\Actions;
 
 use GrotonSchool\Slim\Norms\AbstractAction;
-use GrotonSchool\Slim\SPA\OAuth2\Client\Domain\Provider\ProviderFactory;
+use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderFactory;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Http\Response;
