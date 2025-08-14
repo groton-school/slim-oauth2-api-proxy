@@ -24,7 +24,7 @@ interface LeagueProviderInterface
      *
      * @return array
      */
-    public function getGuarded(): array;
+    public function getGuarded();
 
     /**
      * Determines if the given property is guarded.
@@ -32,7 +32,7 @@ interface LeagueProviderInterface
      * @param  string  $property
      * @return bool
      */
-    public function isGuarded($property): bool;
+    public function isGuarded($property);
 
     /**
      * Sets the grant factory instance.
@@ -40,14 +40,14 @@ interface LeagueProviderInterface
      * @param  GrantFactory $factory
      * @return self
      */
-    public function setGrantFactory(GrantFactory $factory): self;
+    public function setGrantFactory(GrantFactory $factory);
 
     /**
      * Returns the current grant factory instance.
      *
      * @return GrantFactory
      */
-    public function getGrantFactory(): GrantFactory;
+    public function getGrantFactory();
 
     /**
      * Sets the request factory instance.
@@ -55,14 +55,14 @@ interface LeagueProviderInterface
      * @param  RequestFactory $factory
      * @return self
      */
-    public function setRequestFactory(RequestFactory $factory): self;
+    public function setRequestFactory(RequestFactory $factory);
 
     /**
      * Returns the request factory instance.
      *
      * @return RequestFactory
      */
-    public function getRequestFactory(): RequestFactory;
+    public function getRequestFactory();
 
     /**
      * Sets the HTTP client instance.
@@ -70,14 +70,14 @@ interface LeagueProviderInterface
      * @param  HttpClientInterface $client
      * @return self
      */
-    public function setHttpClient(HttpClientInterface $client): self;
+    public function setHttpClient(HttpClientInterface $client);
 
     /**
      * Returns the HTTP client instance.
      *
      * @return HttpClientInterface
      */
-    public function getHttpClient(): HttpClientInterface;
+    public function getHttpClient();
 
     /**
      * Sets the option provider instance.
@@ -85,14 +85,14 @@ interface LeagueProviderInterface
      * @param  OptionProviderInterface $provider
      * @return self
      */
-    public function setOptionProvider(OptionProviderInterface $provider): self;
+    public function setOptionProvider(OptionProviderInterface $provider);
 
     /**
      * Returns the option provider instance.
      *
      * @return OptionProviderInterface
      */
-    public function getOptionProvider(): OptionProviderInterface;
+    public function getOptionProvider();
     /**
      * Returns the current value of the state parameter.
      *
@@ -100,7 +100,7 @@ interface LeagueProviderInterface
      *
      * @return string
      */
-    public function getState(): string;
+    public function getState();
 
     /**
      * Set the value of the pkceCode parameter.
@@ -110,7 +110,7 @@ interface LeagueProviderInterface
      * @param string $pkceCode
      * @return self
      */
-    public function setPkceCode($pkceCode): self;
+    public function setPkceCode($pkceCode);
 
     /**
      * Returns the current value of the pkceCode parameter.
@@ -119,7 +119,7 @@ interface LeagueProviderInterface
      *
      * @return string|null
      */
-    public function getPkceCode(): string|null;
+    public function getPkceCode();
 
     /**
      * Returns the base URL for authorizing a client.
@@ -128,7 +128,7 @@ interface LeagueProviderInterface
      *
      * @return string
      */
-    public function getBaseAuthorizationUrl(): string;
+    public function getBaseAuthorizationUrl();
 
     /**
      * Returns the base URL for requesting an access token.
@@ -138,7 +138,7 @@ interface LeagueProviderInterface
      * @param array $params
      * @return string
      */
-    public function getBaseAccessTokenUrl(array $params): string;
+    public function getBaseAccessTokenUrl(array $params);
 
     /**
      * Returns the URL for requesting the resource owner's details.
@@ -146,7 +146,7 @@ interface LeagueProviderInterface
      * @param AccessToken $token
      * @return string
      */
-    public function getResourceOwnerDetailsUrl(AccessToken $token): string;
+    public function getResourceOwnerDetailsUrl(AccessToken $token);
 
     /**
      * Builds the authorization URL.
@@ -155,7 +155,7 @@ interface LeagueProviderInterface
      * @return string Authorization URL
      * @throws InvalidArgumentException
      */
-    public function getAuthorizationUrl(array $options = []): string;
+    public function getAuthorizationUrl(array $options = []);
 
     /**
      * Redirects the client for authorization.
@@ -168,7 +168,7 @@ interface LeagueProviderInterface
     public function authorize(
         array $options = [],
         ?callable $redirectHandler = null
-    ): mixed;
+    );
 
     /**
      * Requests an access token using a specified grant and option set.
@@ -180,7 +180,7 @@ interface LeagueProviderInterface
      * @throws UnexpectedValueException
      * @throws GuzzleException
      */
-    public function getAccessToken($grant, array $options = []): AccessTokenInterface;
+    public function getAccessToken($grant, array $options = []);
 
     /**
      * Returns a PSR-7 request instance that is not authenticated.
@@ -190,7 +190,7 @@ interface LeagueProviderInterface
      * @param  array $options
      * @return RequestInterface
      */
-    public function getRequest($method, $url, array $options = []): RequestInterface;
+    public function getRequest($method, $url, array $options = []);
 
     /**
      * Returns an authenticated PSR-7 request instance.
@@ -201,7 +201,7 @@ interface LeagueProviderInterface
      * @param  array $options Any of "headers", "body", and "protocolVersion".
      * @return RequestInterface
      */
-    public function getAuthenticatedRequest($method, $url, $token, array $options = []): RequestInterface;
+    public function getAuthenticatedRequest($method, $url, $token, array $options = []);
 
 
     /**
@@ -214,7 +214,7 @@ interface LeagueProviderInterface
      * @return ResponseInterface
      * @throws GuzzleException
      */
-    public function getResponse(RequestInterface $request): ResponseInterface;
+    public function getResponse(RequestInterface $request);
 
     /**
      * Sends a request and returns the parsed response.
@@ -225,7 +225,7 @@ interface LeagueProviderInterface
      * @throws UnexpectedValueException
      * @throws GuzzleException
      */
-    public function getParsedResponse(RequestInterface $request): mixed;
+    public function getParsedResponse(RequestInterface $request);
 
     /**
      * Requests and returns the resource owner of given access token.
@@ -236,7 +236,7 @@ interface LeagueProviderInterface
      * @throws UnexpectedValueException
      * @throws GuzzleException
      */
-    public function getResourceOwner(AccessToken $token): ResourceOwnerInterface;
+    public function getResourceOwner(AccessToken $token);
 
     /**
      * Returns all headers used by this provider for a request.
@@ -246,5 +246,5 @@ interface LeagueProviderInterface
      * @param  mixed|null $token object or string
      * @return array
      */
-    public function getHeaders($token = null): array;
+    public function getHeaders($token = null);
 }
