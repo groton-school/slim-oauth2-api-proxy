@@ -9,7 +9,6 @@ use GrotonSchool\Slim\Norms\AbstractAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessToken;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessTokenFactory;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderFactory;
-use GuzzleHttp\Client;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\Uri\Uri;
 use Odan\Session\SessionInterface;
@@ -70,8 +69,7 @@ class ProxyAction extends AbstractAction
                 'authorize' => Uri::fromBaseUri("/" . $provider->getSlug() . "/login/authorize", $request->getUri())
             ]);
         } else {
-            $client = new Client();
-            $proxiedResponse = $client->send(
+            $proxiedResponse = $provider->getResponse(
                 $provider->getAuthenticatedRequest(
                     $request->getMethod(),
                     Uri::fromBaseUri($args['path'], $provider->getBaseApiUrl()),
