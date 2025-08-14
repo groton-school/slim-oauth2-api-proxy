@@ -62,8 +62,8 @@ class ProxyAction extends AbstractAction
         }
         if (!$token) {
             return  $response->withJson([
-                'authorize' => Uri::fromBaseUri("/" . $this->provider->getSlug() . "/login/authorize", $request->getUri())
-            ]);
+                'authorize' => "/" . $this->provider->getSlug() . "/login/authorize"
+            ])->withStatus(401);
         } else {
             try {
                 $proxiedResponse = $this->provider->getResponse(
