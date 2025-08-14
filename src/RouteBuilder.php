@@ -8,7 +8,6 @@ use GrotonSchool\Slim\Norms\RouteBuilderInterface;
 use GrotonSchool\Slim\OAuth2\APIProxy\Actions\AuthorizeAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Actions\ProxyAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Actions\RedirectAction;
-use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
 use Odan\Session\Middleware\SessionStartMiddleware;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface;
@@ -27,12 +26,5 @@ class RouteBuilder implements RouteBuilderInterface
             $oauth2->any('/proxy[/{path:.*}]', ProxyAction::class);
         })
             ->add(SessionStartMiddleware::class);
-    }
-
-    public function __construct(private ProviderInterface $provider) {}
-
-    public function defineProxyRoutes(App $app): RouteGroupInterface
-    {
-        return self::define($app, $this->provider->getSlug());
     }
 }

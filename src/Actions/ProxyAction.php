@@ -8,7 +8,7 @@ use Dflydev\FigCookies\FigResponseCookies;
 use GrotonSchool\Slim\Norms\AbstractAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessToken;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessTokenFactory;
-use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderFactory;
+use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\Uri\Uri;
 use Odan\Session\SessionInterface;
@@ -20,7 +20,7 @@ use UnexpectedValueException;
 class ProxyAction extends AbstractAction
 {
     public function __construct(
-        private ProviderFactory $providerFactory,
+        private ProviderInterface $provider,
         private SessionInterface $session
     ) {}
 
@@ -35,17 +35,13 @@ class ProxyAction extends AbstractAction
         Response $response,
         array $args = []
     ): ResponseInterface {
-        $provider = $this->providerFactory->fromSession($this->session);
-        if (!$provider) {
-            return $response->withStatus(400);
-        }
-        $accessTokenFactory = new AccessTokenFactory($provider);
+        $accessTokenFactory = new AccessTokenFactory($this->provider);
         $token = $accessTokenFactory->fromRequest($request);
         if ($token && $token->hasExpired()) {
             try {
                 $token = AccessToken::merge(
                     $token,
-                    $provider->getAccessToken(
+                    $this->provider->getAccessToken(
                         'refresh_token',
                         [
                             'refresh_token' => $token->getRefreshToken()
@@ -66,13 +62,13 @@ class ProxyAction extends AbstractAction
         }
         if (!$token) {
             return  $response->withJson([
-                'authorize' => Uri::fromBaseUri("/" . $provider->getSlug() . "/login/authorize", $request->getUri())
+                'authorize' => Uri::fromBaseUri("/" . $this->provider->getSlug() . "/login/authorize", $request->getUri())
             ]);
         } else {
-            $proxiedResponse = $provider->getResponse(
-                $provider->getAuthenticatedRequest(
+            $proxiedResponse = $this->provider->getResponse(
+                $this->provider->getAuthenticatedRequest(
                     $request->getMethod(),
-                    Uri::fromBaseUri($args['path'], $provider->getBaseApiUrl()),
+                    Uri::fromBaseUri($args['path'], $this->provider->getBaseApiUrl()),
                     $token,
                     [
                         'body' => $request->getBody(),
