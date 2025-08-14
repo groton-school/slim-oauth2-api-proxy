@@ -31,12 +31,10 @@ class RefreshTokenAction extends AbstractAction
             $request->getQueryParam('host', ''),
             $request->getQueryParam('client_id', '')
         );
-        $redirect = $request->getQueryParam('redirect') ??
-            $this->settings->getOAuth2AuthenticatedRedirectUrl();
         $oldToken = $this->tokenFactory->fromRequestCookie($request);
 
         return FigResponseCookies::set(
-            $response->withRedirect($redirect),
+            $response->withStatus(200),
             $this->tokenFactory->toCookie(
                 AccessToken::merge(
                     $oldToken,
