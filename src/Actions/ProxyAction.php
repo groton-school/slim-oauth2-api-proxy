@@ -79,7 +79,9 @@ class ProxyAction extends AbstractAction
                     )
                 );
             } catch (GuzzleException $e) {
-                return $response->withStatus($e->getCode(), $e->getMessage());
+                $parts = explode("\n", $e->getMessage());
+                $response->getBody()->write(join("\n", array_slice($parts, 1)));
+                return $response->withStatus($e->getCode(), $parts[0]);
             }
             $response = FigResponseCookies::set(
                 $response->withBody(
