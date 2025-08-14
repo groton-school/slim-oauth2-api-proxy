@@ -24,7 +24,7 @@ class RouteBuilder implements RouteBuilderInterface
                 $login->get('/authorize', AuthorizeAction::class);
                 $login->get('/redirect', RedirectAction::class);
             });
-            $oauth2->any('/proxy/{path:.*}', ProxyAction::class);
+            $oauth2->any('/proxy[/{path:.*}]', ProxyAction::class);
         })
             ->add(SessionStartMiddleware::class);
     }
