@@ -7,14 +7,13 @@ namespace GrotonSchool\Slim\OAuth2\APIProxy\Actions;
 use Dflydev\FigCookies\FigResponseCookies;
 use GrotonSchool\Slim\Norms\AbstractAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessTokenFactory;
-use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Psr\Http\Message\ResponseInterface;
 
 class DeauthorizeAction extends AbstractAction
 {
-    public function __construct(private ProviderInterface $provider) {}
+    public function __construct(private AccessTokenFactory $accessTokenFactory) {}
 
     protected function invokeHook(
         ServerRequest $request,
@@ -23,7 +22,7 @@ class DeauthorizeAction extends AbstractAction
     ): ResponseInterface {
         return FigResponseCookies::set(
             $response,
-            (new AccessTokenFactory($this->provider))->toCookie(null)
+            $this->accessTokenFactory->toCookie(null)
         );
     }
 }

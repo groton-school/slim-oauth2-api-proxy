@@ -16,7 +16,6 @@ use Psr\Http\Message\RequestInterface;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Psr\Http\Message\ResponseInterface;
-use UnexpectedValueException;
 
 class ProxyAction extends AbstractAction
 {
@@ -81,11 +80,6 @@ class ProxyAction extends AbstractAction
                 $response = $response
                     ->withBody($e->getResponseBody())
                     ->withStatus($e->getCode(), $e->getMessage());
-            } catch (UnexpectedValueException $e) {
-                $token = null;
-                $response = $response
-                    ->withJson(['error' => $e->getMessage()])
-                    ->withStatus(500);
             }
         }
         if (!$token) {
