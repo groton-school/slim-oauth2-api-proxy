@@ -7,6 +7,7 @@ namespace GrotonSchool\Slim\OAuth2\APIProxy;
 use GrotonSchool\Slim\Norms\RouteBuilderInterface;
 use GrotonSchool\Slim\OAuth2\APIProxy\Actions\AuthorizeAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Actions\DeauthorizeAction;
+use GrotonSchool\Slim\OAuth2\APIProxy\Actions\OwnerAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Actions\ProxyAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Actions\RedirectAction;
 use Odan\Session\Middleware\SessionStartMiddleware;
@@ -25,6 +26,7 @@ class RouteBuilder implements RouteBuilderInterface
                 $login->get('/redirect', RedirectAction::class);
                 $login->get('/deauthorize', DeauthorizeAction::class);
             });
+            $api->get('/owner', OwnerAction::class);
             $api->any('/proxy[/{path:.*}]', ProxyAction::class);
         })
             ->add(SessionStartMiddleware::class);
