@@ -13,7 +13,6 @@ trait HeaderInclude
     {
         return [
             'Accept',
-            'Authorization',
             'Content-Type'
         ];
     }

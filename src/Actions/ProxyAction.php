@@ -16,19 +16,24 @@ use Psr\Http\Message\RequestInterface;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 use UnexpectedValueException;
 
 class ProxyAction extends AbstractAction
 {
+    public function __construct(
+        private ProviderInterface $provider,
+        private SessionInterface $session
+    ) {}
+
     /**
-     * 
      * @param RequestInterface $request 
      * @return string[][]
      */
     private function prepareHeaders(RequestInterface $request): array
     {
         $include = $this->provider->getHeaderInclude();
-        $exclude = $this->provider->getHeaderExclude();
+        $exclude = ['Authorization', ...$this->provider->getHeaderExclude()];
         $headers = [];
 
         foreach ($request->getHeaders() as $name => $values) {
@@ -47,11 +52,6 @@ class ProxyAction extends AbstractAction
 
         return $headers;
     }
-
-    public function __construct(
-        private ProviderInterface $provider,
-        private SessionInterface $session
-    ) {}
 
     /**
      * @param ServerRequest $request 
@@ -95,19 +95,21 @@ class ProxyAction extends AbstractAction
             ])->withStatus(401);
         } else {
             try {
-                $proxiedResponse = $this->provider->getResponse(
-                    $this->provider->getAuthenticatedRequest(
-                        $request->getMethod(),
-                        (string) Uri::fromBaseUri($args['path'], $this->provider->getBaseApiUrl()),
-                        $token,
-                        [
-                            'body' => $request->getBody(),
-                            'headers' => $this->prepareHeaders($request),
-                            'version' => $request->getProtocolVersion()
-                        ]
-                    )
+                $apiRequest = $this->provider->getAuthenticatedRequest(
+                    $request->getMethod(),
+                    (string) Uri::fromBaseUri($args['path'], $this->provider->getBaseApiUrl()),
+                    $token,
+                    [
+                        'body' => $request->getBody(),
+                        'headers' => $this->prepareHeaders($request),
+                        'version' => $request->getProtocolVersion()
+                    ]
                 );
+                $this->logger->debug("Proxying " . $apiRequest->getUri(), ['headers' => $apiRequest->getHeaders(), 'body' => $apiRequest->getBody()]);
+                $proxiedResponse = $this->provider->getResponse($apiRequest);
+                $this->logger->debug('Response from ' . $request->getUri(), ['headers' => $response->getHeaders(), 'body' => $response->getBody()]);
             } catch (GuzzleException $e) {
+                $this->logger->debug("Guzzle error proxying " . $request->getUri(), ['exception' => $e]);
                 $parts = explode("\n", $e->getMessage());
                 $response->getBody()->write(join("\n", array_slice($parts, 1)));
                 return $response->withStatus($e->getCode(), $parts[0]);
