@@ -31,9 +31,9 @@ class AccessTokenFactory
         return null;
     }
 
-    public function toCookie(AccessTokenInterface $token): SetCookie
+    public function toCookie(?AccessTokenInterface $token): SetCookie
     {
-        return SetCookie::createRememberedForever(
+        $cookie = SetCookie::createRememberedForever(
             $this->provider->getCookieName()
         )
             ->withValue(json_encode($token))
@@ -42,6 +42,11 @@ class AccessTokenFactory
             ->withSameSite(SameSite::none())
             ->withSecure()
             ->withPartitioned();
+        if (!$token) {
+            $cookie = $cookie->withValue("")
+                ->withExpires();
+        }
+        return $cookie;
     }
 
     /**

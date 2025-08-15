@@ -16,7 +16,6 @@ use Psr\Http\Message\RequestInterface;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Log\LoggerInterface;
 use UnexpectedValueException;
 
 class ProxyAction extends AbstractAction
@@ -105,22 +104,19 @@ class ProxyAction extends AbstractAction
                         'version' => $request->getProtocolVersion()
                     ]
                 );
-                $this->logger->debug("Proxying " . $apiRequest->getUri(), ['headers' => $apiRequest->getHeaders(), 'body' => $apiRequest->getBody()]);
                 $proxiedResponse = $this->provider->getResponse($apiRequest);
-                $this->logger->debug('Response from ' . $request->getUri(), ['headers' => $response->getHeaders(), 'body' => $response->getBody()]);
+                $response = $response
+                    ->withBody($proxiedResponse->getBody())
+                    ->withStatus($proxiedResponse->getStatusCode());
             } catch (GuzzleException $e) {
-                $this->logger->debug("Guzzle error proxying " . $request->getUri(), ['exception' => $e]);
                 $parts = explode("\n", $e->getMessage());
                 $response->getBody()->write(join("\n", array_slice($parts, 1)));
-                return $response->withStatus($e->getCode(), $parts[0]);
+                $response = $response->withStatus($e->getCode(), $parts[0]);
             }
-            $response = FigResponseCookies::set(
-                $response->withBody(
-                    $proxiedResponse->getBody()
-                ),
-                $accessTokenFactory->toCookie($token)
-            )->withStatus($proxiedResponse->getStatusCode());
         }
-        return $response;
+        return FigResponseCookies::set(
+            $response,
+            $accessTokenFactory->toCookie($token)
+        );
     }
 }

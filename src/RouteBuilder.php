@@ -6,6 +6,7 @@ namespace GrotonSchool\Slim\OAuth2\APIProxy;
 
 use GrotonSchool\Slim\Norms\RouteBuilderInterface;
 use GrotonSchool\Slim\OAuth2\APIProxy\Actions\AuthorizeAction;
+use GrotonSchool\Slim\OAuth2\APIProxy\Actions\DeauthorizeAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Actions\ProxyAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Actions\RedirectAction;
 use Odan\Session\Middleware\SessionStartMiddleware;
@@ -18,12 +19,13 @@ class RouteBuilder implements RouteBuilderInterface
     public static function define(App $app, string $providerSlug = 'proxy'): RouteGroupInterface
     {
         $providerSlug = preg_replace('/^-?(.+)-?$/', '$1', preg_replace('/[^a-z0-9\-]+/', '-', $providerSlug));
-        return $app->group("/$providerSlug", function (RouteCollectorProxyInterface $oauth2) {
-            $oauth2->group("/login", function (RouteCollectorProxyInterface $login) {
+        return $app->group("/$providerSlug", function (RouteCollectorProxyInterface $api) {
+            $api->group("/login", function (RouteCollectorProxyInterface $login) {
                 $login->get('/authorize', AuthorizeAction::class);
                 $login->get('/redirect', RedirectAction::class);
+                $login->get('/deauthorize', DeauthorizeAction::class);
             });
-            $oauth2->any('/proxy[/{path:.*}]', ProxyAction::class);
+            $api->any('/proxy[/{path:.*}]', ProxyAction::class);
         })
             ->add(SessionStartMiddleware::class);
     }
