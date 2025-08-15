@@ -16,7 +16,6 @@ use Psr\Http\Message\RequestInterface;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Psr\Http\Message\ResponseInterface;
-use Slim\Psr7\Headers;
 use UnexpectedValueException;
 
 class ProxyAction extends AbstractAction
@@ -35,11 +34,11 @@ class ProxyAction extends AbstractAction
         foreach ($request->getHeaders() as $name => $values) {
             if (
                 empty($include) ||
-                !empty(array_filter($include, fn($pattern) => !!preg_match("/^$pattern/", (string) $name)))
+                !empty(array_filter($include, fn($pattern) => !!preg_match("/^$pattern/i", (string) $name)))
             ) {
                 if (
                     empty($exclude) ||
-                    empty(array_filter($exclude, fn($pattern) => !!preg_match("/^$pattern/", (string)$name)))
+                    empty(array_filter($exclude, fn($pattern) => !!preg_match("/^$pattern/i", (string)$name)))
                 ) {
                     $headers[$name] = $values;
                 }
