@@ -12,13 +12,43 @@ use GuzzleHttp\Exception\GuzzleException;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\Uri\Uri;
 use Odan\Session\SessionInterface;
+use Psr\Http\Message\RequestInterface;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Psr7\Headers;
 use UnexpectedValueException;
 
 class ProxyAction extends AbstractAction
 {
+    /**
+     * 
+     * @param RequestInterface $request 
+     * @return string[][]
+     */
+    private function prepareHeaders(RequestInterface $request): array
+    {
+        $include = $this->provider->getHeaderInclude();
+        $exclude = $this->provider->getHeaderExclude();
+        $headers = [];
+
+        foreach ($request->getHeaders() as $name => $values) {
+            if (
+                empty($include) ||
+                !empty(array_filter($include, fn($pattern) => !!preg_match("/^$pattern/", (string) $name)))
+            ) {
+                if (
+                    empty($exclude) ||
+                    empty(array_filter($exclude, fn($pattern) => !!preg_match("/^$pattern/", (string)$name)))
+                ) {
+                    $headers[$name] = $values;
+                }
+            }
+        }
+
+        return $headers;
+    }
+
     public function __construct(
         private ProviderInterface $provider,
         private SessionInterface $session
@@ -73,8 +103,8 @@ class ProxyAction extends AbstractAction
                         $token,
                         [
                             'body' => $request->getBody(),
-                            //'headers' => $request->getHeaders(),
-                            //'version' => $request->getProtocolVersion()
+                            'headers' => $this->prepareHeaders($request),
+                            'version' => $request->getProtocolVersion()
                         ]
                     )
                 );

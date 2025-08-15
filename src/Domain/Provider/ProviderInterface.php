@@ -10,4 +10,14 @@ interface ProviderInterface extends LeagueProviderInterface
     public function getCookieName(): string;
     public function getAuthorizedRedirect(): string;
     public function getBaseApiUrl(): string;
+
+    /**
+     * @return string[]
+     */
+    public function getHeaderInclude(): array;
+
+    /**
+     * @return string[]
+     */
+    public function getHeaderExclude(): array;
 }
