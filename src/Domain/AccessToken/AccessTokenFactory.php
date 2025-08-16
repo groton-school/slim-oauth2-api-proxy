@@ -21,15 +21,34 @@ class AccessTokenFactory
             $this->provider->getCookieName()
         )->getValue();
         if ($storedToken) {
-            return new AccessToken(
-                json_decode(
-                    $storedToken,
-                    true
+            return $this->refresh(
+                new AccessToken(
+                    json_decode(
+                        $storedToken,
+                        true
+                    )
                 )
             );
         }
         return null;
     }
+
+    private function refresh(?AccessToken $token)
+    {
+        if ($token && $token->hasExpired()) {
+            $token = $this->merge(
+                $token,
+                $this->provider->getAccessToken(
+                    'refresh_token',
+                    [
+                        'refresh_token' => $token->getRefreshToken()
+                    ]
+                )
+            );
+        }
+        return $token;
+    }
+
 
     public function toCookie(?AccessTokenInterface $token): SetCookie
     {
@@ -54,7 +73,7 @@ class AccessTokenFactory
      * out on the first authentication. Preserve that first refresh token
      * by merging it into any new access tokens.
      */
-    public static function merge(AccessToken $a, AccessToken $b): AccessToken
+    public function merge(AccessToken $a, AccessToken $b): AccessToken
     {
         if ($a->getExpires() > $b->getExpires()) {
             $temp = $a;

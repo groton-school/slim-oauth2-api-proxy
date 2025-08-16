@@ -62,52 +62,34 @@ class ProxyAction extends AbstractAction
         Response $response,
         array $args = []
     ): ResponseInterface {
-        $accessTokenFactory = new AccessTokenFactory($this->provider);
-        $token = $accessTokenFactory->fromRequest($request);
-        if ($token && $token->hasExpired()) {
-            try {
-                $token = $accessTokenFactory::merge(
-                    $token,
-                    $this->provider->getAccessToken(
-                        'refresh_token',
-                        [
-                            'refresh_token' => $token->getRefreshToken()
-                        ]
-                    )
-                );
-            } catch (IdentityProviderException $e) {
-                $token = null;
-                $response = $response
-                    ->withBody($e->getResponseBody())
-                    ->withStatus($e->getCode(), $e->getMessage());
-            }
+        try {
+            $accessTokenFactory = new AccessTokenFactory($this->provider);
+            $token = $accessTokenFactory->fromRequest($request);
+            $apiRequest = $this->provider->getAuthenticatedRequest(
+                $request->getMethod(),
+                (string) Uri::fromBaseUri($args['path'], $this->provider->getBaseApiUrl()),
+                $token,
+                [
+                    'body' => $request->getBody(),
+                    'headers' => $this->prepareHeaders($request),
+                    'version' => $request->getProtocolVersion()
+                ]
+            );
+            $proxiedResponse = $this->provider->getResponse($apiRequest);
+            $response = $response
+                ->withBody($proxiedResponse->getBody())
+                ->withStatus($proxiedResponse->getStatusCode());
+        } catch (GuzzleException $e) {
+            $parts = explode("\n", $e->getMessage());
+            $response->getBody()->write(join("\n", array_slice($parts, 1)));
+            $response = $response->withStatus($e->getCode(), $parts[0]);
+        } catch (IdentityProviderException $e) {
+            $response = $response->withStatus(
+                $e->getCode(),
+                $e->getMessage()
+            );
         }
-        if (!$token) {
-            return  $response->withJson([
-                'authorize' => "/" . $this->provider->getSlug() . "/login/authorize"
-            ])->withStatus(401);
-        } else {
-            try {
-                $apiRequest = $this->provider->getAuthenticatedRequest(
-                    $request->getMethod(),
-                    (string) Uri::fromBaseUri($args['path'], $this->provider->getBaseApiUrl()),
-                    $token,
-                    [
-                        'body' => $request->getBody(),
-                        'headers' => $this->prepareHeaders($request),
-                        'version' => $request->getProtocolVersion()
-                    ]
-                );
-                $proxiedResponse = $this->provider->getResponse($apiRequest);
-                $response = $response
-                    ->withBody($proxiedResponse->getBody())
-                    ->withStatus($proxiedResponse->getStatusCode());
-            } catch (GuzzleException $e) {
-                $parts = explode("\n", $e->getMessage());
-                $response->getBody()->write(join("\n", array_slice($parts, 1)));
-                $response = $response->withStatus($e->getCode(), $parts[0]);
-            }
-        }
+
         return FigResponseCookies::set(
             $response,
             $accessTokenFactory->toCookie($token)

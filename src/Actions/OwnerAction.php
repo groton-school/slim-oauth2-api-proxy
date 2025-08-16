@@ -7,6 +7,7 @@ namespace GrotonSchool\Slim\OAuth2\APIProxy\Actions;
 use GrotonSchool\Slim\Norms\AbstractAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessTokenFactory;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -22,8 +23,15 @@ class OwnerAction extends AbstractAction
         Response $response,
         array $args = []
     ): ResponseInterface {
-        $accessTokenFactory = new AccessTokenFactory($this->provider);
-        $token = $accessTokenFactory->fromRequest($request);
+        try {
+            $accessTokenFactory = new AccessTokenFactory($this->provider);
+            $token = $accessTokenFactory->fromRequest($request);
+        } catch (IdentityProviderException $e) {
+            return $response->withStatus(
+                $e->getCode(),
+                $e->getMessage()
+            );
+        }
         if ($token) {
             return $response->withJson($this->provider->getResourceOwner($token)->toArray());
         } else {
