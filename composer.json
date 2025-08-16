@@ -1,6 +1,6 @@
 {
   "name": "groton-school/slim-oauth2-api-proxy",
-  "description": "Server-side actions and routes for authenticating to and accessing the an OAuth2 API from a web client",
+  "description": "Server-side actions and routes for authenticating to and accessing an REST API from a web client",
   "version": "0.0.0",
   "authors": [
     {
