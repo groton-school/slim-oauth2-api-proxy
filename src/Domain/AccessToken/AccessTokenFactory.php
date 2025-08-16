@@ -62,8 +62,7 @@ class AccessTokenFactory
             ->withSecure()
             ->withPartitioned();
         if (!$token) {
-            $cookie = $cookie->withValue("")
-                ->withExpires();
+            $cookie = $cookie->expire();
         }
         return $cookie;
     }
