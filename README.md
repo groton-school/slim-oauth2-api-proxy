@@ -21,4 +21,4 @@ Due to [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS) res
 
 ### groton-school/slim-skeleton@dev-gae/lti-tool_canvas-api-proxy
 
-[groton-school/slim-skeleton](https://github.com/groton-school/slim-skeleton/tree/gae/lti-tool_canvas-api-proxy) is the canonical example of how this shim is meant to be used.
+[groton-school/slim-skeleton's gae/lti-tool_canvas-api-proxy](https://github.com/groton-school/slim-skeleton/tree/gae/lti-tool_canvas-api-proxy) is the canonical example of how this shim is meant to be used.
