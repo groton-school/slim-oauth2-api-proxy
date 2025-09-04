@@ -4,6 +4,15 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [1.0.1](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v1.0.0...v1.0.1) (2025-09-04)
+
+### Bug Fixes
+
+* Upgrade to dist version of dflydev/fig-cookies ([97797a](https://github.com/groton-school/slim-oauth2-api-proxy/commit/97797a7fe0a58a1a7aa00ff1e877e98f727b0bd1))
+
+
+---
+
 ## [1.0.0](https://github.com/groton-school/slim-oauth2-api-proxy/compare/be1a4343219c181291b20f67119f53263f9c07a1...v1.0.0) (2025-08-16)
 
 ### Features
