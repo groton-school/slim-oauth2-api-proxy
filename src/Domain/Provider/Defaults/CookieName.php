@@ -8,6 +8,6 @@ trait CookieName
 {
     public function getCookieName(): string
     {
-        return 'tokens';
+        return  $this->getSlug() . '-tokens';
     }
 }
