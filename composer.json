@@ -1,7 +1,7 @@
 {
     "name": "groton-school/slim-oauth2-api-proxy",
     "description": "Server-side actions and routes for authenticating to and accessing an REST API from a web client",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "authors": [
         {
             "name": "Seth Battis",

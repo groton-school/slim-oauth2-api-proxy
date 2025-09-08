@@ -4,6 +4,15 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [1.0.2](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v1.0.1...v1.0.2) (2025-09-08)
+
+### Bug Fixes
+
+* Include search query in proxied request ([e59c2c](https://github.com/groton-school/slim-oauth2-api-proxy/commit/e59c2cf659d060a4d5a5efee7e2843ace7471a3e))
+
+
+---
+
 ## [1.0.1](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v1.0.0...v1.0.1) (2025-09-04)
 
 ### Bug Fixes
