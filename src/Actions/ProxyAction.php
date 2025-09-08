@@ -65,9 +65,10 @@ class ProxyAction extends AbstractAction
         try {
             $accessTokenFactory = new AccessTokenFactory($this->provider);
             $token = $accessTokenFactory->fromRequest($request);
+            $uri = Uri::fromBaseUri($args['path'], $this->provider->getBaseApiUrl())->withQuery($request->getUri()->getQuery());
             $apiRequest = $this->provider->getAuthenticatedRequest(
                 $request->getMethod(),
-                (string) Uri::fromBaseUri($args['path'], $this->provider->getBaseApiUrl()),
+                (string) $uri,
                 $token,
                 [
                     'body' => $request->getBody(),
