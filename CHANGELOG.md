@@ -4,6 +4,15 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [1.0.3](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v1.0.2...v1.0.3) (2025-09-09)
+
+### Bug Fixes
+
+* Cookie name defaults to slug-tokens ([483e66](https://github.com/groton-school/slim-oauth2-api-proxy/commit/483e66b87c5d448a35cb9ce30de5c90f83d72437))
+
+
+---
+
 ## [1.0.2](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v1.0.1...v1.0.2) (2025-09-08)
 
 ### Bug Fixes
