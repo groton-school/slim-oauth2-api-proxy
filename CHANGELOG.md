@@ -4,6 +4,15 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [2.0.0](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v1.0.3...v2.0.0) (2025-09-09)
+
+### ⚠ BREAKING CHANGES
+
+* Support constructor injection by making static members dynamic ([96b9b7](https://github.com/groton-school/slim-oauth2-api-proxy/commit/96b9b769940896ff0887283345767c17e44947ae))
+
+
+---
+
 ## [1.0.3](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v1.0.2...v1.0.3) (2025-09-09)
 
 ### Bug Fixes
