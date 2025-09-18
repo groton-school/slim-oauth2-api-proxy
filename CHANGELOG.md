@@ -4,6 +4,15 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [3.0.0](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v2.0.0...v3.0.0) (2025-09-18)
+
+### ⚠ BREAKING CHANGES
+
+* Replace AccessTokenFactory with AbstractAccessTokenRepository ([bcde0b](https://github.com/groton-school/slim-oauth2-api-proxy/commit/bcde0b235995fb1d761e285c5426bf5bbd322324))
+
+
+---
+
 ## [2.0.0](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v1.0.3...v2.0.0) (2025-09-09)
 
 ### ⚠ BREAKING CHANGES
