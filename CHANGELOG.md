@@ -4,6 +4,15 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [3.0.1](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v3.0.0...v3.0.1) (2025-09-18)
+
+### Bug Fixes
+
+* Upgrade RequestInterface to slim/http ServerRequest ([2a1149](https://github.com/groton-school/slim-oauth2-api-proxy/commit/2a11495befb43fa8d4455e6f8b955b2093badcc0))
+
+
+---
+
 ## [3.0.0](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v2.0.0...v3.0.0) (2025-09-18)
 
 ### ⚠ BREAKING CHANGES
