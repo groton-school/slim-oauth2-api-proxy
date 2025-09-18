@@ -2,38 +2,31 @@
 
 namespace GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken;
 
-use Dflydev\FigCookies\FigRequestCookies;
-use Dflydev\FigCookies\Modifier\SameSite;
-use Dflydev\FigCookies\SetCookie;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use League\OAuth2\Client\Token\AccessTokenInterface;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-class AccessTokenFactory
+abstract class AbstractAccessTokenRepository
 {
     public function __construct(private ProviderInterface $provider) {}
 
-    public function fromRequest(RequestInterface $request): ?AccessToken
-    {
-        $storedToken = FigRequestCookies::get(
-            $request,
-            $this->provider->getCookieName()
-        )->getValue();
-        if ($storedToken) {
-            return $this->refresh(
-                new AccessToken(
-                    json_decode(
-                        $storedToken,
-                        true
-                    )
-                )
-            );
-        }
-        return null;
-    }
+    abstract public function getToken(
+        RequestInterface $request
+    ): ?AccessToken;
 
-    private function refresh(?AccessToken $token)
+    abstract public function setToken(
+        AccessToken $token,
+        RequestInterface $request,
+        ResponseInterface $response
+    ): ResponseInterface;
+
+    abstract public function deleteToken(
+        RequestInterface $request,
+        ResponseInterface $response
+    ): ResponseInterface;
+
+    protected function refresh(?AccessToken $token)
     {
         if ($token && $token->hasExpired()) {
             $token = $this->merge(
@@ -47,24 +40,6 @@ class AccessTokenFactory
             );
         }
         return $token;
-    }
-
-
-    public function toCookie(?AccessTokenInterface $token): SetCookie
-    {
-        $cookie = SetCookie::createRememberedForever(
-            $this->provider->getCookieName()
-        )
-            ->withValue(json_encode($token))
-            ->withPath('/')
-            ->withHttpOnly()
-            ->withSameSite(SameSite::none())
-            ->withSecure()
-            ->withPartitioned();
-        if (!$token) {
-            $cookie = $cookie->expire();
-        }
-        return $cookie;
     }
 
     /**

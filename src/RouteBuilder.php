@@ -10,7 +10,6 @@ use GrotonSchool\Slim\OAuth2\APIProxy\Actions\DeauthorizeAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Actions\OwnerAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Actions\ProxyAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Actions\RedirectAction;
-use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessTokenFactory;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
 use Odan\Session\Middleware\SessionStartMiddleware;
 use Odan\Session\SessionInterface;
@@ -48,13 +47,9 @@ class RouteBuilder implements RouteBuilderInterface
                     $provider,
                     $session
                 ));
-                $login->get('/deauthorize', new DeauthorizeAction(
-                    new AccessTokenFactory($provider)
-                ));
+                $login->get('/deauthorize', new DeauthorizeAction($provider));
             });
-            $api->get('/owner', new OwnerAction(
-                $provider
-            ));
+            $api->get('/owner', new OwnerAction($provider));
             $api->any('/proxy[/{path:.*}]', new ProxyAction(
                 $provider,
                 $session

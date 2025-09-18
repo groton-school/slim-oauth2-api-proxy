@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace GrotonSchool\Slim\OAuth2\APIProxy\Actions;
 
-use Dflydev\FigCookies\FigResponseCookies;
 use GrotonSchool\Slim\Norms\AbstractAction;
-use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessTokenFactory;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
@@ -21,7 +19,7 @@ class ProxyAction extends AbstractAction
 {
     public function __construct(
         private ProviderInterface $provider,
-        private SessionInterface $session
+        private SessionInterface $session,
     ) {}
 
     /**
@@ -63,9 +61,11 @@ class ProxyAction extends AbstractAction
         array $args = []
     ): ResponseInterface {
         try {
-            $accessTokenFactory = new AccessTokenFactory($this->provider);
-            $token = $accessTokenFactory->fromRequest($request);
-            $uri = Uri::fromBaseUri($args['path'], $this->provider->getBaseApiUrl())->withQuery($request->getUri()->getQuery());
+            $token = $this->provider->getAccessTokenRepository()->getToken($request);
+            $uri = Uri::fromBaseUri(
+                $args['path'],
+                $this->provider->getBaseApiUrl()
+            )->withQuery($request->getUri()->getQuery());
             $apiRequest = $this->provider->getAuthenticatedRequest(
                 $request->getMethod(),
                 (string) $uri,
@@ -90,10 +90,8 @@ class ProxyAction extends AbstractAction
                 $e->getMessage()
             );
         }
-
-        return FigResponseCookies::set(
-            $response,
-            $accessTokenFactory->toCookie($token)
-        );
+        return $this->provider
+            ->getAccessTokenRepository()
+            ->setToken($token, $request, $response);
     }
 }

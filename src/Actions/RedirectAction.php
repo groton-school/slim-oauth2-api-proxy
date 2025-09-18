@@ -6,7 +6,6 @@ namespace GrotonSchool\Slim\OAuth2\APIProxy\Actions;
 
 use Dflydev\FigCookies\FigResponseCookies;
 use GrotonSchool\Slim\Norms\AbstractAction;
-use GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken\AccessTokenFactory;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
 use Odan\Session\SessionInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -29,15 +28,13 @@ class RedirectAction extends AbstractAction
         if (empty($state) || $state !== $this->session->get(AuthorizeAction::STATE)) {
             return $response->withStatus(400);
         }
-        $accessTokenFactory = new AccessTokenFactory($this->provider);
         $token = $this->provider->getAccessToken('authorization_code', [
             'code' => $request->getQueryParam('code')
         ]);
-        return FigResponseCookies::set(
-            $response->withRedirect(
+        return $this->provider
+            ->getAccessTokenRepository()
+            ->setToken($token, $request, $response->withRedirect(
                 $this->provider->getAuthorizedRedirect()
-            ),
-            $accessTokenFactory->toCookie($token)
-        );
+            ));
     }
 }
