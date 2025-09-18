@@ -4,25 +4,25 @@ namespace GrotonSchool\Slim\OAuth2\APIProxy\Domain\AccessToken;
 
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
 use League\OAuth2\Client\Token\AccessToken;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Http\ServerRequest;
 
 abstract class AbstractAccessTokenRepository
 {
     public function __construct(private ProviderInterface $provider) {}
 
     abstract public function getToken(
-        RequestInterface $request
+        ServerRequest $request
     ): ?AccessToken;
 
     abstract public function setToken(
         AccessToken $token,
-        RequestInterface $request,
+        ServerRequest $request,
         ResponseInterface $response
     ): ResponseInterface;
 
     abstract public function deleteToken(
-        RequestInterface $request,
+        ServerRequest $request,
         ResponseInterface $response
     ): ResponseInterface;
 
