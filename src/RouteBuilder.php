@@ -13,6 +13,7 @@ use GrotonSchool\Slim\OAuth2\APIProxy\Actions\RedirectAction;
 use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
 use Odan\Session\Middleware\SessionStartMiddleware;
 use Odan\Session\SessionInterface;
+use Psr\Http\Server\MiddlewareInterface;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface;
 use Slim\Interfaces\RouteGroupInterface;
@@ -24,7 +25,7 @@ class RouteBuilder implements RouteBuilderInterface
         private SessionInterface $session
     ) {}
 
-    public function define(App $app): RouteGroupInterface
+    public function define(App $app, ?MiddlewareInterface ...$innerMiddleware): RouteGroupInterface
     {
         $providerSlug = preg_replace(
             '/^-?(.+)-?$/',
@@ -37,7 +38,7 @@ class RouteBuilder implements RouteBuilderInterface
         );
         $provider = $this->provider;
         $session = $this->session;
-        return $app->group("/$providerSlug", function (RouteCollectorProxyInterface $api) use ($provider, $session) {
+        $group = $app->group("/$providerSlug", function (RouteCollectorProxyInterface $api) use ($provider, $session) {
             $api->group("/login", function (RouteCollectorProxyInterface $login) use ($provider, $session) {
                 $login->get('/authorize', new AuthorizeAction(
                     $provider,
@@ -54,7 +55,14 @@ class RouteBuilder implements RouteBuilderInterface
                 $provider,
                 $session
             ));
-        })
-            ->add(SessionStartMiddleware::class);
+        });
+
+        foreach ($innerMiddleware as $middleware) {
+            if ($middleware) {
+                $group = $group->add($middleware);
+            }
+        }
+
+        return $group->add(SessionStartMiddleware::class);
     }
 }
