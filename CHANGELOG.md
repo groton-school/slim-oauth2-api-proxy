@@ -4,6 +4,15 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [3.1.1](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v3.1.0...v3.1.1) (2025-09-19)
+
+### Bug Fixes
+
+* Normalize inner middleware definitions ([9b6527](https://github.com/groton-school/slim-oauth2-api-proxy/commit/9b652751159cbae9b7f24e1de17d30da938ab048))
+
+
+---
+
 ## [3.1.0](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v3.0.1...v3.1.0) (2025-09-19)
 
 ### Features
