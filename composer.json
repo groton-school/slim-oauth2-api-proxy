@@ -1,39 +1,39 @@
 {
-  "name": "groton-school/slim-oauth2-api-proxy",
-  "description": "Server-side actions and routes for authenticating to and accessing an REST API from a web client",
-  "version": "3.0.1",
-  "authors": [
-    {
-      "name": "Seth Battis",
-      "email": "sbattis@groton.org"
+    "name": "groton-school/slim-oauth2-api-proxy",
+    "description": "Server-side actions and routes for authenticating to and accessing an REST API from a web client",
+    "version": "3.1.0",
+    "authors": [
+        {
+            "name": "Seth Battis",
+            "email": "sbattis@groton.org"
+        }
+    ],
+    "license": "GPL-3.0",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "GrotonSchool\\Slim\\OAuth2\\APIProxy\\": "src/"
+        }
+    },
+    "require": {
+        "dflydev/fig-cookies": "^3.2",
+        "groton-school/oauth2-canvaslms": "^1.1",
+        "groton-school/slim-norms": "^2.1",
+        "league/oauth2-client": "^2.8",
+        "league/uri": "^7.5",
+        "odan/session": "^6.4",
+        "php-di/php-di": "^7.0",
+        "psr/container": "^2.0",
+        "psr/http-message": "^2.0",
+        "slim/http": "^1.4",
+        "slim/slim": "^4.12"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.76",
+        "marcocesarato/php-conventional-changelog": "^1.17"
+    },
+    "config": {
+        "sort-packages": true
     }
-  ],
-  "license": "GPL-3.0",
-  "minimum-stability": "dev",
-  "prefer-stable": true,
-  "autoload": {
-    "psr-4": {
-      "GrotonSchool\\Slim\\OAuth2\\APIProxy\\": "src/"
-    }
-  },
-  "require": {
-    "dflydev/fig-cookies": "^3.2",
-    "groton-school/oauth2-canvaslms": "^1.1",
-    "groton-school/slim-norms": "^2.1",
-    "league/oauth2-client": "^2.8",
-    "league/uri": "^7.5",
-    "odan/session": "^6.4",
-    "php-di/php-di": "^7.0",
-    "psr/container": "^2.0",
-    "psr/http-message": "^2.0",
-    "slim/http": "^1.4",
-    "slim/slim": "^4.12"
-  },
-  "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.76",
-    "marcocesarato/php-conventional-changelog": "^1.17"
-  },
-  "config": {
-    "sort-packages": true
-  }
 }

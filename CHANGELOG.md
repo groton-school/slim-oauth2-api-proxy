@@ -4,6 +4,15 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [3.1.0](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v3.0.1...v3.1.0) (2025-09-19)
+
+### Features
+
+* Inject inner middleware into routes ([44cc5c](https://github.com/groton-school/slim-oauth2-api-proxy/commit/44cc5ce2faa02c74dd8e8f8c94854c9178bede03))
+
+
+---
+
 ## [3.0.1](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v3.0.0...v3.0.1) (2025-09-18)
 
 ### Bug Fixes
