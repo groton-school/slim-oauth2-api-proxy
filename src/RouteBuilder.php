@@ -25,7 +25,7 @@ class RouteBuilder implements RouteBuilderInterface
         private SessionInterface $session
     ) {}
 
-    public function define(App $app, ?MiddlewareInterface ...$innerMiddleware): RouteGroupInterface
+    public function define(App $app, MiddlewareInterface|string|callable ...$innerMiddleware): RouteGroupInterface
     {
         $providerSlug = preg_replace(
             '/^-?(.+)-?$/',
@@ -58,9 +58,7 @@ class RouteBuilder implements RouteBuilderInterface
         });
 
         foreach ($innerMiddleware as $middleware) {
-            if ($middleware) {
-                $group = $group->add($middleware);
-            }
+            $group = $group->add($middleware);
         }
 
         return $group->add(SessionStartMiddleware::class);

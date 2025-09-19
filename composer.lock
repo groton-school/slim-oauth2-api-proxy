@@ -4,7 +4,7 @@
     "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
     "This file is @generated automatically"
   ],
-  "content-hash": "c60d0dc33a63a33257ba5071de69d83a",
+  "content-hash": "002e96a51a6efb7b5bf2950655e8d71a",
   "packages": [
     {
       "name": "dflydev/fig-cookies",
@@ -118,16 +118,16 @@
     },
     {
       "name": "groton-school/slim-norms",
-      "version": "2.1.0",
+      "version": "2.1.1",
       "source": {
         "type": "git",
         "url": "https://github.com/groton-school/slim-norms.git",
-        "reference": "da00397bdedd61d06c4d0970058fdfcc159abbb9"
+        "reference": "b5afd522f3c3d1aa764219e9b09db334f62c6988"
       },
       "dist": {
         "type": "zip",
-        "url": "https://api.github.com/repos/groton-school/slim-norms/zipball/da00397bdedd61d06c4d0970058fdfcc159abbb9",
-        "reference": "da00397bdedd61d06c4d0970058fdfcc159abbb9",
+        "url": "https://api.github.com/repos/groton-school/slim-norms/zipball/b5afd522f3c3d1aa764219e9b09db334f62c6988",
+        "reference": "b5afd522f3c3d1aa764219e9b09db334f62c6988",
         "shasum": ""
       },
       "require": {
@@ -159,9 +159,9 @@
       "description": "Define some normal interfaces and abstract classes for working with the Slim Framework",
       "support": {
         "issues": "https://github.com/groton-school/slim-norms/issues",
-        "source": "https://github.com/groton-school/slim-norms/tree/v2.1.0"
+        "source": "https://github.com/groton-school/slim-norms/tree/v2.1.1"
       },
-      "time": "2025-09-19T00:59:40+00:00"
+      "time": "2025-09-19T01:23:33+00:00"
     },
     {
       "name": "guzzlehttp/guzzle",
