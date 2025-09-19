@@ -42,7 +42,7 @@ class AccessTokenCookie extends AbstractAccessTokenRepository
     }
 
     public function setToken(
-        AccessToken $token,
+        ?AccessToken $token,
         RequestInterface $request,
         ResponseInterface $response
     ): ResponseInterface {

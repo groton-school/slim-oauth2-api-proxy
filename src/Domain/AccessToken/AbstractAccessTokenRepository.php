@@ -18,7 +18,7 @@ abstract class AbstractAccessTokenRepository
     ): ?AccessToken;
 
     abstract public function setToken(
-        AccessToken $token,
+        ?AccessToken $token,
         ServerRequest $request,
         ResponseInterface $response
     ): ResponseInterface;
