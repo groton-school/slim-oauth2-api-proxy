@@ -4,6 +4,15 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [3.1.2](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v3.1.1...v3.1.2) (2025-09-19)
+
+### Bug Fixes
+
+* Tolerate null token (when not authorized) ([5e3d5e](https://github.com/groton-school/slim-oauth2-api-proxy/commit/5e3d5e91317605dce812d49d25c90919136b75ad))
+
+
+---
+
 ## [3.1.1](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v3.1.0...v3.1.1) (2025-09-19)
 
 ### Bug Fixes
