@@ -28,7 +28,7 @@ abstract class AbstractAccessTokenRepository
         ResponseInterface $response
     ): ResponseInterface;
 
-    protected function refresh(?AccessToken $token)
+    protected function refresh(?AccessToken $token): ?AccessToken
     {
         if ($token && $token->hasExpired()) {
             $token = $this->merge(
