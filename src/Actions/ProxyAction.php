@@ -14,12 +14,14 @@ use Psr\Http\Message\RequestInterface;
 use Slim\Http\ServerRequest;
 use Slim\Http\Response;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Log\LoggerInterface;
 
 class ProxyAction extends AbstractAction
 {
     public function __construct(
         private ProviderInterface $provider,
         private SessionInterface $session,
+        private LoggerInterface $logger
     ) {}
 
     /**
@@ -84,6 +86,24 @@ class ProxyAction extends AbstractAction
             $parts = explode("\n", $e->getMessage());
             $response->getBody()->write(join("\n", array_slice($parts, 1)));
             $response = $response->withStatus($e->getCode(), $parts[0]);
+            $this->logger->error("Error proxying request to $uri", [
+                'original_request' => [
+                    'uri' => $request->getUri(),
+                    'method' => $request->getMethod(),
+                    'headers' => $request->getHeaders(),
+                    'body' => $request->getBody(),
+                ],
+                'proxied_request' => [
+                    'uri' => $apiRequest->getUri(),
+                    'method' => $apiRequest->getMethod(),
+                    'headers' => $apiRequest->getHeaders(),
+                    'body' => $apiRequest->getBody()
+                ],
+                'response' => $proxiedResponse ? [
+                    'headers' => $proxiedResponse->getHeaders(),
+                    'body' => $proxiedResponse->getBody()
+                ] : null
+            ]);
         } catch (IdentityProviderException $e) {
             $response = $response->withStatus(
                 $e->getCode(),

@@ -14,6 +14,7 @@ use GrotonSchool\Slim\OAuth2\APIProxy\Domain\Provider\ProviderInterface;
 use Odan\Session\Middleware\SessionStartMiddleware;
 use Odan\Session\SessionInterface;
 use Psr\Http\Server\MiddlewareInterface;
+use Psr\Log\LoggerInterface;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface;
 use Slim\Interfaces\RouteGroupInterface;
@@ -22,7 +23,8 @@ class RouteBuilder implements RouteBuilderInterface
 {
     public function __construct(
         private ProviderInterface $provider,
-        private SessionInterface $session
+        private SessionInterface $session,
+        private        LoggerInterface $logger
     ) {}
 
     public function define(App $app, MiddlewareInterface|string|callable ...$innerMiddleware): RouteGroupInterface
@@ -38,7 +40,8 @@ class RouteBuilder implements RouteBuilderInterface
         );
         $provider = $this->provider;
         $session = $this->session;
-        $group = $app->group("/$providerSlug", function (RouteCollectorProxyInterface $api) use ($provider, $session) {
+        $logger = $this->logger;
+        $group = $app->group("/$providerSlug", function (RouteCollectorProxyInterface $api) use ($provider, $session, $logger) {
             $api->group("/login", function (RouteCollectorProxyInterface $login) use ($provider, $session) {
                 $login->get('/authorize', new AuthorizeAction(
                     $provider,
@@ -53,7 +56,8 @@ class RouteBuilder implements RouteBuilderInterface
             $api->get('/owner', new OwnerAction($provider));
             $api->any('/proxy[/{path:.*}]', new ProxyAction(
                 $provider,
-                $session
+                $session,
+                $logger
             ));
         });
 
