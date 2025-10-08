@@ -4,6 +4,11 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [3.1.3](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v3.1.2...v3.1.3) (2025-10-08)
+
+
+---
+
 ## [3.1.2](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v3.1.1...v3.1.2) (2025-09-19)
 
 ### Bug Fixes
