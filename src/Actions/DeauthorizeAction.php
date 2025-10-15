@@ -12,9 +12,11 @@ use Psr\Http\Message\ResponseInterface;
 
 class DeauthorizeAction extends AbstractAction
 {
-    public function __construct(private ProviderInterface $provider) {}
+    public function __construct(private ProviderInterface $provider)
+    {
+    }
 
-    protected function invokeHook(
+    protected function action(
         ServerRequest $request,
         Response $response,
         array $args = []

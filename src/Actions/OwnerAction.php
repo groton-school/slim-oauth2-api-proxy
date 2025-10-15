@@ -15,9 +15,10 @@ class OwnerAction extends AbstractAction
 {
     public function __construct(
         private ProviderInterface $provider
-    ) {}
+    ) {
+    }
 
-    protected function invokeHook(
+    protected function action(
         ServerRequest $request,
         Response $response,
         array $args = []

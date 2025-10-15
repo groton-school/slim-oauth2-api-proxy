@@ -17,9 +17,10 @@ class RedirectAction extends AbstractAction
     public function __construct(
         private ProviderInterface $provider,
         private SessionInterface $session,
-    ) {}
+    ) {
+    }
 
-    protected function invokeHook(
+    protected function action(
         ServerRequest $request,
         Response $response,
         array $args = []

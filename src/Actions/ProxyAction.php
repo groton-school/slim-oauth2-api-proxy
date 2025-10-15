@@ -22,10 +22,11 @@ class ProxyAction extends AbstractAction
         private ProviderInterface $provider,
         private SessionInterface $session,
         private LoggerInterface $logger
-    ) {}
+    ) {
+    }
 
     /**
-     * @param RequestInterface $request 
+     * @param RequestInterface $request
      * @return string[][]
      */
     private function prepareHeaders(RequestInterface $request): array
@@ -37,11 +38,11 @@ class ProxyAction extends AbstractAction
         foreach ($request->getHeaders() as $name => $values) {
             if (
                 empty($include) ||
-                !empty(array_filter($include, fn($pattern) => !!preg_match("/^$pattern/i", (string) $name)))
+                !empty(array_filter($include, fn ($pattern) => !!preg_match("/^$pattern/i", (string) $name)))
             ) {
                 if (
                     empty($exclude) ||
-                    empty(array_filter($exclude, fn($pattern) => !!preg_match("/^$pattern/i", (string)$name)))
+                    empty(array_filter($exclude, fn ($pattern) => !!preg_match("/^$pattern/i", (string)$name)))
                 ) {
                     $headers[$name] = $values;
                 }
@@ -52,12 +53,12 @@ class ProxyAction extends AbstractAction
     }
 
     /**
-     * @param ServerRequest $request 
-     * @param Response $response 
-     * @param array{path: string} $args 
-     * @return ResponseInterface 
+     * @param ServerRequest $request
+     * @param Response $response
+     * @param array{path: string} $args
+     * @return ResponseInterface
      */
-    protected function invokeHook(
+    protected function action(
         ServerRequest $request,
         Response $response,
         array $args = []

@@ -19,7 +19,7 @@
   "require": {
     "dflydev/fig-cookies": "^3.2",
     "groton-school/oauth2-canvaslms": "^1.1",
-    "groton-school/slim-norms": "^2.1",
+    "groton-school/slim-norms": "^2.2",
     "league/oauth2-client": "^2.8",
     "league/uri": "^7.5",
     "odan/session": "^6.4",
