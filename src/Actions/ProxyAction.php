@@ -79,10 +79,10 @@ class ProxyAction extends AbstractAction
                     'version' => $request->getProtocolVersion()
                 ]
             );
-            $proxiedResponse = $this->provider->getResponse($apiRequest);
-            $response = $response
+            $response /*$proxiedResponse*/ = $this->provider->getResponse($apiRequest);
+            /*$response = $response
                 ->withBody($proxiedResponse->getBody())
-                ->withStatus($proxiedResponse->getStatusCode());
+                ->withStatus($proxiedResponse->getStatusCode());*/
         } catch (GuzzleException $e) {
             $parts = explode("\n", $e->getMessage());
             $response->getBody()->write(join("\n", array_slice($parts, 1)));
@@ -100,9 +100,9 @@ class ProxyAction extends AbstractAction
                     'headers' => $apiRequest->getHeaders(),
                     'body' => $apiRequest->getBody()
                 ],
-                'response' => $proxiedResponse ? [
-                    'headers' => $proxiedResponse->getHeaders(),
-                    'body' => $proxiedResponse->getBody()
+                'response' => $response /*$proxiedResponse*/ ? [
+                    'headers' => /*$proxiedResponse*/ $response->getHeaders(),
+                    'body' => /*$proxiedResponse*/ $response->getBody()
                 ] : null
             ]);
         } catch (IdentityProviderException $e) {
