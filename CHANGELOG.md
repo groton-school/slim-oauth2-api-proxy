@@ -4,6 +4,15 @@
 All notable changes to this project will be documented in this file.
 <!--- END HEADER -->
 
+## [3.1.4](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v3.1.3...v3.1.4) (2025-10-24)
+
+### Bug Fixes
+
+* Return complete proxied response, including all headers ([373736](https://github.com/groton-school/slim-oauth2-api-proxy/commit/373736b433291a49a8de3c3fef7e139d644ba885))
+
+
+---
+
 ## [3.1.3](https://github.com/groton-school/slim-oauth2-api-proxy/compare/v3.1.2...v3.1.3) (2025-10-08)
 
 
